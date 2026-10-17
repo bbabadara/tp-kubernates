@@ -1,0 +1,53 @@
+
+# Project: Deploy a Full-Stack Todo Application on Kubernetes
+
+Build and deploy a complete Todo application with a frontend, backend, and database, using Kubernetes for container orchestration and high availability.
+
+## Requirements
+
+1. **Install and configure Kubernetes**
+   - Install and configure a Kubernetes cluster.
+   - Ensure that the cluster is operational and ready to host the application.
+2. **Deploy the frontend**
+   - Containerize the frontend application using Docker.
+   - Deploy the frontend on Kubernetes with **2 replicas**.
+   - Configure a Kubernetes Service of type LoadBalancer to distribute incoming traffic across the frontend replicas and improve availability.
+   - Ensure that the frontend remains accessible when one replica becomes unavailable.
+3. **Deploy the backend**
+   - Containerize the backend application using Docker.
+   - Deploy the backend on Kubernetes with **3 replicas**.
+   - Configure a Kubernetes Service to expose the backend internally and distribute requests across the available replicas.
+   - Ensure that the backend can communicate with both the frontend and the database.
+4. **Deploy the database**
+   - Deploy and configure the database within the Kubernetes environment.
+   - Use persistent storage to ensure that application data is retained across pod restarts.
+   - Configure the necessary credentials and connection settings securely.
+   - Make the database accessible to the backend through an internal Kubernetes Service without exposing it publicly.
+5. **Configure a domain name**
+   - Configure a domain name to access the frontend application.
+   - Set up the necessary DNS records and networking configuration.
+   - Configure an Ingress Controller or an appropriate LoadBalancer solution, depending on the Kubernetes environment.
+   - Enable HTTPS if a domain name and certificate configuration are available.
+6. **Configure communication between components**
+   - Ensure that the frontend can send API requests to the backend.
+   - Ensure that the backend can connect to the database.
+   - Use Kubernetes Services and internal DNS for service discovery.
+   - Configure environment variables, application settings, and network access appropriately.
+7. **High availability and validation**
+   - Verify that the frontend runs with 2 replicas and the backend with 3 replicas.
+   - Verify that traffic is distributed across the available replicas.
+   - Test communication between the frontend, backend, and database.
+   - Verify that database data persists after pod restarts.
+   - Test the application's accessibility through the configured domain name.
+   - Provide instructions for deployment, troubleshooting, and maintenance.
+
+## Expected deliverables
+
+- Dockerfiles for the frontend and backend.
+- Kubernetes manifests for Deployments, Services, ConfigMaps, Secrets, persistent storage, and Ingress where applicable.
+- Database deployment and configuration.
+- Domain name and DNS configuration instructions.
+- Deployment scripts or commands.
+- A README explaining the architecture, prerequisites, deployment procedure, verification steps, and troubleshooting.
+
+**Important:** The frontend, backend, and database must communicate correctly. Follow Kubernetes best practices for security, service discovery, persistent storage, scalability, and high availability. Explain each implementation step and provide all necessary configuration files and commands.

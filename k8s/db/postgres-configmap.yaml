@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init-sql
+  namespace: tp-app
+data:
+  init.sql: |
+    CREATE TABLE IF NOT EXISTS categories (
+      id SERIAL PRIMARY KEY,
+      nom VARCHAR(255) NOT NULL UNIQUE,
+      description TEXT,
+      "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+      "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+    );
+
+    CREATE TABLE IF NOT EXISTS products (
+      id SERIAL PRIMARY KEY,
+      nom VARCHAR(255) NOT NULL,
+      description TEXT,
+      prix DECIMAL(10, 2) NOT NULL,
+      stock INTEGER NOT NULL DEFAULT 0,
+      "categorieId" INTEGER REFERENCES categories(id) ON DELETE SET NULL,
+      "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+      "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+    );
+
+    INSERT INTO categories (nom, description)
+    SELECT 'Informatique', 'Ordinateurs, composants et périphériques'
+    WHERE NOT EXISTS (SELECT 1 FROM categories WHERE nom = 'Informatique');
+
+    INSERT INTO categories (nom, description)
+    SELECT 'Audio', 'Casques, écouteurs et enceintes'
+    WHERE NOT EXISTS (SELECT 1 FROM categories WHERE nom = 'Audio');
+
+    INSERT INTO categories (nom, description)
+    SELECT 'Accessoires', 'Accessoires et gadgets divers'
+    WHERE NOT EXISTS (SELECT 1 FROM categories WHERE nom = 'Accessoires');
+
+    INSERT INTO categories (nom, description)
+    SELECT 'Mobiles', 'Smartphones, tablettes et accessoires mobiles'
+    WHERE NOT EXISTS (SELECT 1 FROM categories WHERE nom = 'Mobiles');
+
+    INSERT INTO categories (nom, description)
+    SELECT 'Gaming', 'Consoles, jeux et équipement gaming'
+    WHERE NOT EXISTS (SELECT 1 FROM categories WHERE nom = 'Gaming');

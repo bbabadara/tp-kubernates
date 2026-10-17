@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: tp-app
+data:
+  NODE_ENV: "production"
+  # URL API utilisée par le frontend (sera résolue via Ingress/Service backend)
+  REACT_APP_API_URL: "/api"
+  # Paramètres DB non sensibles
+  DB_HOST: "postgres"
+  DB_PORT: "5432"
+  DB_NAME: "productdb"
+  PORT: "5000"

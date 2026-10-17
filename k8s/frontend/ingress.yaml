@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend-ingress
+  namespace: tp-app
+  annotations:
+    # Exemples d'annotations selon Ingress Controller
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/rewrite-target: /$2
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  # ingressClassName: nginx  # Décommenter si nécessaire
+  rules:
+    - host: todo-app.local  # À remplacer par votre domaine (ex. app.votredomaine.com)
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 5000
+  # tls:
+  #   - hosts:
+  #       - todo-app.local
+  #     secretName: todo-app-tls

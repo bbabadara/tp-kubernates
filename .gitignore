@@ -1,0 +1,54 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Builds
+build/
+dist/
+out/
+
+# Environnements
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs/
+*.log
+
+# Éditeurs/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-*
+
+# Système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker
+*.pid
+*.seed
+.dockerignore.local
+
+# Kubernetes (overrides locaux)
+overlays/local/
+*kustomization-local*.yaml
+*kustomization-*.local.yaml
+
+# Tests/coverage
+coverage/
+.nyc_output/
+jest-cache/
+.parcel-cache/
+
+# Outils
+.turbo/
+.cache/
