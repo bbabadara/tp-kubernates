@@ -209,7 +209,8 @@ selector: app=postgres
 
 - `replicas: 2` → HA pour l'interface
 - `RollingUpdate` identique au backend
-- Image : `3tiers-frontend:local` (Nginx + build React)
+- Image : `3tiers-frontend:local` (nginx-unprivileged + build React, écoute sur **8080**)
+- `containerPort: 8080` (nginx tourne en utilisateur non-root, donc port > 1024)
 - `REACT_APP_API_URL` injecté via ConfigMap (même si déjà dans build, cohérent avec l'environnement)
 - Probes sur `/` (page d'accueil)
 
@@ -217,7 +218,7 @@ selector: app=postgres
 
 ```yaml
 type: LoadBalancer
-port: 80 -> targetPort: 80
+port: 80 -> targetPort: 8080   # nginx non-root écoute sur 8080
 ```
 
 - **Sur cloud** (AKS/EKS/GKE) : provisionne un LoadBalancer externe avec IP publique.

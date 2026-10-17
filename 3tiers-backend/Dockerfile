@@ -2,16 +2,16 @@
 FROM node:18-alpine AS deps
 WORKDIR /app
 
-# Install dependencies only (production + lockfile)
+# Install dependencies only (production)
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm install --omit=dev
 
 # ----- Development stage (optional) -----
 FROM node:18-alpine AS dev
 WORKDIR /app
 ENV NODE_ENV=development
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 COPY . .
 EXPOSE 5000
 CMD ["npm", "run", "dev"]

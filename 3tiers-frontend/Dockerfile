@@ -4,32 +4,25 @@ WORKDIR /app
 
 # Install dependencies
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 
-# Copy source and build
+# Copy source and build the React app
 COPY . .
 RUN npm run build
 
-# ----- Production stage -----
-FROM nginx:1.27-alpine AS production
+# ----- Production stage (nginx running as non-root) -----
+FROM nginxinc/nginx-unprivileged:1.27-alpine AS production
 
-# Remove default nginx static assets
-RUN rm -rf /usr/share/nginx/html/*
-
-# Copy build output
+# Copy build output to nginx html dir
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Copy custom nginx config
+# Copy custom nginx config (listens on 8080)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Add non-root user (nginx unprivileged)
-RUN chown -R nginx:nginx /usr/share/nginx/html /var/cache/nginx /var/run /var/log/nginx
-
-USER nginx
-
-EXPOSE 80
+# Unprivileged image already runs as non-root user (uid 101)
+EXPOSE 8080
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD wget --quiet --tries=1 --spider http://localhost/ || exit 1
+  CMD wget --quiet --tries=1 --spider http://localhost:8080/ || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]
